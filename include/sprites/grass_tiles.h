@@ -1,0 +1,16 @@
+/*
+** EPITECH PROJECT, 2026
+** G-ING-401-PAR-4-1-cartridge-2
+** File description:
+** grass_tiles.h
+*/
+
+#ifndef GRASS_TILES
+    #define GRASS_TILES
+
+static const unsigned char GrassTiles[] = {
+    0xA5, 0xA5, 0xFF, 0xFF, 0x00, 0xFF, 0x00, 0xFF,
+    0xAA, 0x55, 0x55, 0xAA, 0xAA, 0x55, 0x55, 0xAA,
+};
+
+#endif

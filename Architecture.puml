@@ -1,0 +1,115 @@
+@startuml Cartridge
+namespace HoppyGame #AliceBlue {
+    class Main {
+        run_hoppy_game()
+        display_main_screen()
+        fade_in_out(uint8_t *palette)
+        main()
+    }
+
+    class Font {
+        menu_font_load()
+        uint8_t get_specific_tiles(char c)
+        uint8_t get_char_tile(char c)
+        draw_text(uint8_t col, uint8_t row, const char *text)
+    }
+
+    class Menu {
+        init_menu(uint8_t selected)
+        checkerboard_wipe_transition()
+        draw_menu(uint8_t selected)
+        handle_menu_input(uint8_t *selected, uint8_t keys, uint8_t prev_keys)
+        launch_selected_game(uint8_t selected)
+    }
+
+    class HoppySnake {
+        + clear_all_sprites()
+        set_coords(coords_t *dest, coords_t origin)
+        int get_coords_next(snake_board_t *snake_board, coords_t *coords)
+        snake_head_positions_t get_head_sprite(tile_data_t direction)
+        tile_data_t *get_member_next(snake_game_t *snake_game, coords_t coords)
+        int init_snake_game(snake_game_t *snake_game)
+        int place_fish(snake_game_t *game)
+        tile_data_t *get_tile_at(snake_board_t *snake_board, coords_t cds)
+        snake_key_handler(snake_game_t *snake_game, uint8_t key_input)
+        snake_game_key_t snake_step(snake_game_t *game_data)
+        run_snake()
+    }
+    
+    class SnakeScore {
+        uint8_t snake_game_loop()
+        set_score(char *original_score, char new_score)
+        init_snake_score(char *snake_score)
+        increment_score(char *original_score)
+    }
+
+    class HoppyBird {
+        + clear_all_sprites()
+        pipe_state_t *pipe_get_state()
+        uint8_t lcg_next(pipe_state_t *s)
+        fill_sky_col(uint8_t col)
+        fill_pipe_col(uint8_t col)
+        advance_column()
+        init_pipes()
+        update_pipes()
+        flappy_t *flappy_get_state()
+        init_gfx()
+        flappy_handle_input()
+        apply_gravity()
+        check_collision()
+        flappy_init()
+        uint8_t flappy_update()
+    }
+    
+    class BirdScore {
+        uint8_t pipe_hit_check(uint8_t bird_y)
+        uint8_t pipe_score_check()
+        draw_score(uint8_t score)
+        setup_score_win()
+    }
+
+    class HoppyRun {
+        + clear_all_sprites()
+        draw_lives(uint8_t lives)
+        display_background()
+        display_hoppy(input_t *input, uint8_t lives)
+        display_pipe()
+        draw_pipe_at(uint8_t col, uint8_t height, bool erase)
+        handle_input(input_t *input)
+        handle_jump(input_t *input)
+        handle_run(display_t *display)
+        update_pipe(pipe_t *pipe, display_t *display)
+        bool handle_collisions(pipe_t *pipe, input_t *input, display_t *display)
+        handle_sprite_animation(display_t *display, input_t *input)
+        handle_collision_damage(pipe_t *pipe, input_t *input,
+        display_t *display, uint8_t *invincible)
+        manage_main_loop(display_t *display, input_t *input)
+    }
+
+    class RunnerScore {
+        bool check_game_over(display_t *display)
+        draw_hoppy_score(uint8_t score)
+        setup_score_window()
+        run_hoppy()
+    }
+
+    class LeaderBoard {
+    bool game_over_screen()
+    init_save_data()
+    save_score(uint8_t game_id, uint8_t score)
+    load_scores(uint8_t game_id, uint8_t *scores)
+    }
+}
+
+Main --> Font
+Main --> Menu
+Menu --> HoppySnake
+Menu --> HoppyBird
+Menu --> HoppyRun
+HoppySnake --> SnakeScore
+HoppyBird --> BirdScore
+HoppyRun --> RunnerScore
+SnakeScore --> LeaderBoard
+BirdScore --> LeaderBoard
+RunnerScore --> LeaderBoard
+@enduml

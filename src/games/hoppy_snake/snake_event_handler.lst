@@ -1,0 +1,201 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.5.1 #15267 (Linux)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module snake_event_handler
+                                      6 	
+                                      7 ;--------------------------------------------------------
+                                      8 ; Public variables in this module
+                                      9 ;--------------------------------------------------------
+                                     10 	.globl _get_head_sprite
+                                     11 	.globl _get_tile_at
+                                     12 	.globl _snake_key_handler
+                                     13 ;--------------------------------------------------------
+                                     14 ; special function registers
+                                     15 ;--------------------------------------------------------
+                                     16 	.area _HRAM
+                                     17 ;--------------------------------------------------------
+                                     18 ; ram data
+                                     19 ;--------------------------------------------------------
+                                     20 	.area _DATA
+                                     21 ;--------------------------------------------------------
+                                     22 ; ram data
+                                     23 ;--------------------------------------------------------
+                                     24 	.area _INITIALIZED
+                                     25 ;--------------------------------------------------------
+                                     26 ; absolute external ram data
+                                     27 ;--------------------------------------------------------
+                                     28 	.area _DABS (ABS)
+                                     29 ;--------------------------------------------------------
+                                     30 ; global & static initialisations
+                                     31 ;--------------------------------------------------------
+                                     32 	.area _HOME
+                                     33 	.area _GSINIT
+                                     34 	.area _GSFINAL
+                                     35 	.area _GSINIT
+                                     36 ;--------------------------------------------------------
+                                     37 ; Home
+                                     38 ;--------------------------------------------------------
+                                     39 	.area _HOME
+                                     40 	.area _HOME
+                                     41 ;--------------------------------------------------------
+                                     42 ; code
+                                     43 ;--------------------------------------------------------
+                                     44 	.area _CODE
+                                     45 ;src/games/hoppy_snake/snake_event_handler.c:15: void snake_key_handler(snake_game_t *snake_game, uint8_t key_input)
+                                     46 ;	---------------------------------
+                                     47 ; Function snake_key_handler
+                                     48 ; ---------------------------------
+    00000000                         49 _snake_key_handler::
+    00000000 E8 FC            [16]   50 	add	sp, #-4
+    00000002 F8 02            [12]   51 	ldhl	sp,	#2
+    00000004 73               [ 8]   52 	ld	(hl), e
+    00000005 23               [ 8]   53 	inc	hl
+    00000006 72               [ 8]   54 	ld	(hl), d
+    00000007 2B               [ 8]   55 	dec	hl
+    00000008 2B               [ 8]   56 	dec	hl
+                                     57 ;src/games/hoppy_snake/snake_event_handler.c:17: tile_data_t *head_tile = get_tile_at(
+    00000009 22               [ 8]   58 	ld	(hl+), a
+    0000000A 2A               [ 8]   59 	ld	a, (hl+)
+    0000000B 5F               [ 4]   60 	ld	e, a
+    0000000C 56               [ 8]   61 	ld	d, (hl)
+    0000000D 21 56 01         [12]   62 	ld	hl, #0x0156
+    00000010 19               [ 8]   63 	add	hl, de
+    00000011 4D               [ 4]   64 	ld	c, l
+    00000012 44               [ 4]   65 	ld	b, h
+    00000013 F8 02            [12]   66 	ldhl	sp,	#2
+    00000015 2A               [ 8]   67 	ld	a, (hl+)
+    00000016 5F               [ 4]   68 	ld	e, a
+    00000017 56               [ 8]   69 	ld	d, (hl)
+    00000018 69               [ 4]   70 	ld	l, c
+    00000019 60               [ 4]   71 	ld	h, b
+    0000001A 23               [ 8]   72 	inc	hl
+    0000001B 23               [ 8]   73 	inc	hl
+    0000001C 23               [ 8]   74 	inc	hl
+    0000001D 3A               [ 8]   75 	ld	a, (hl-)
+    0000001E 47               [ 4]   76 	ld	b, a
+    0000001F 3A               [ 8]   77 	ld	a, (hl-)
+    00000020 4F               [ 4]   78 	ld	c, a
+    00000021 C5               [16]   79 	push	bc
+    00000022 3A               [ 8]   80 	ld	a, (hl-)
+    00000023 47               [ 4]   81 	ld	b, a
+    00000024 4E               [ 8]   82 	ld	c, (hl)
+    00000025 C5               [16]   83 	push	bc
+    00000026 CDr00r00         [24]   84 	call	_get_tile_at
+                                     85 ;src/games/hoppy_snake/snake_event_handler.c:20: move_sprite(get_head_sprite(*head_tile), 0, 0);
+    00000029 0A               [ 8]   86 	ld	a, (bc)
+    0000002A C5               [16]   87 	push	bc
+    0000002B CDr00r00         [24]   88 	call	_get_head_sprite
+    0000002E 5F               [ 4]   89 	ld	e, a
+    0000002F C1               [12]   90 	pop	bc
+                                     91 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000030 AF               [ 4]   92 	xor	a, a
+    00000031 6B               [ 4]   93 	ld	l, e
+    00000032 67               [ 4]   94 	ld	h, a
+    00000033 29               [ 8]   95 	add	hl, hl
+    00000034 29               [ 8]   96 	add	hl, hl
+    00000035 11r00r00         [12]   97 	ld	de, #_shadow_OAM
+    00000038 19               [ 8]   98 	add	hl, de
+                                     99 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+    00000039 AF               [ 4]  100 	xor	a, a
+    0000003A 22               [ 8]  101 	ld	(hl+), a
+    0000003B 77               [ 8]  102 	ld	(hl), a
+                                    103 ;src/games/hoppy_snake/snake_event_handler.c:21: if (key_input == J_UP && *head_tile != SNAKE_DOWN)
+    0000003C F8 01            [12]  104 	ldhl	sp,	#1
+    0000003E 7E               [ 8]  105 	ld	a, (hl)
+    0000003F D6 04            [ 8]  106 	sub	a, #0x04
+    00000041 20 08            [12]  107 	jr	NZ, 00102$
+    00000043 0A               [ 8]  108 	ld	a, (bc)
+    00000044 D6 08            [ 8]  109 	sub	a, #0x08
+    00000046 28 03            [12]  110 	jr	Z, 00102$
+                                    111 ;src/games/hoppy_snake/snake_event_handler.c:22: *head_tile = SNAKE_UP;
+    00000048 3E 04            [ 8]  112 	ld	a, #0x04
+    0000004A 02               [ 8]  113 	ld	(bc), a
+    0000004B                        114 00102$:
+                                    115 ;src/games/hoppy_snake/snake_event_handler.c:23: if (key_input == J_DOWN && *head_tile != SNAKE_UP)
+    0000004B F8 01            [12]  116 	ldhl	sp,	#1
+    0000004D 7E               [ 8]  117 	ld	a, (hl)
+    0000004E D6 08            [ 8]  118 	sub	a, #0x08
+    00000050 20 08            [12]  119 	jr	NZ, 00105$
+    00000052 0A               [ 8]  120 	ld	a, (bc)
+    00000053 D6 04            [ 8]  121 	sub	a, #0x04
+    00000055 28 03            [12]  122 	jr	Z, 00105$
+                                    123 ;src/games/hoppy_snake/snake_event_handler.c:24: *head_tile = SNAKE_DOWN;
+    00000057 3E 08            [ 8]  124 	ld	a, #0x08
+    00000059 02               [ 8]  125 	ld	(bc), a
+    0000005A                        126 00105$:
+                                    127 ;src/games/hoppy_snake/snake_event_handler.c:25: if (key_input == J_LEFT && *head_tile != SNAKE_RIGHT)
+    0000005A F8 01            [12]  128 	ldhl	sp,	#1
+    0000005C 7E               [ 8]  129 	ld	a, (hl)
+    0000005D D6 02            [ 8]  130 	sub	a, #0x02
+    0000005F 20 08            [12]  131 	jr	NZ, 00108$
+    00000061 0A               [ 8]  132 	ld	a, (bc)
+    00000062 D6 20            [ 8]  133 	sub	a, #0x20
+    00000064 28 03            [12]  134 	jr	Z, 00108$
+                                    135 ;src/games/hoppy_snake/snake_event_handler.c:26: *head_tile = SNAKE_LEFT;
+    00000066 3E 10            [ 8]  136 	ld	a, #0x10
+    00000068 02               [ 8]  137 	ld	(bc), a
+    00000069                        138 00108$:
+                                    139 ;src/games/hoppy_snake/snake_event_handler.c:27: if (key_input == J_RIGHT && *head_tile != SNAKE_LEFT)
+    00000069 F8 01            [12]  140 	ldhl	sp,	#1
+    0000006B 7E               [ 8]  141 	ld	a, (hl)
+    0000006C 3D               [ 4]  142 	dec	a
+    0000006D 20 08            [12]  143 	jr	NZ, 00111$
+    0000006F 0A               [ 8]  144 	ld	a, (bc)
+    00000070 D6 10            [ 8]  145 	sub	a, #0x10
+    00000072 28 03            [12]  146 	jr	Z, 00111$
+                                    147 ;src/games/hoppy_snake/snake_event_handler.c:28: *head_tile = SNAKE_RIGHT;
+    00000074 3E 20            [ 8]  148 	ld	a, #0x20
+    00000076 02               [ 8]  149 	ld	(bc), a
+    00000077                        150 00111$:
+                                    151 ;src/games/hoppy_snake/snake_event_handler.c:31: snake_game->head_coords.values[0]
+    00000077 F8 02            [12]  152 	ldhl	sp,#2
+    00000079 2A               [ 8]  153 	ld	a, (hl+)
+    0000007A 5F               [ 4]  154 	ld	e, a
+    0000007B 56               [ 8]  155 	ld	d, (hl)
+    0000007C 21 56 01         [12]  156 	ld	hl, #0x0156
+    0000007F 19               [ 8]  157 	add	hl, de
+    00000080 5D               [ 4]  158 	ld	e, l
+    00000081 54               [ 4]  159 	ld	d, h
+    00000082 1A               [ 8]  160 	ld	a, (de)
+    00000083 F8 00            [12]  161 	ldhl	sp,	#0
+    00000085 77               [ 8]  162 	ld	(hl), a
+                                    163 ;src/games/hoppy_snake/snake_event_handler.c:30: snake_game->head_coords.values[1],
+    00000086 F8 02            [12]  164 	ldhl	sp,#2
+    00000088 2A               [ 8]  165 	ld	a, (hl+)
+    00000089 5F               [ 4]  166 	ld	e, a
+    0000008A 56               [ 8]  167 	ld	d, (hl)
+    0000008B 21 58 01         [12]  168 	ld	hl, #0x0158
+    0000008E 19               [ 8]  169 	add	hl, de
+    0000008F 5D               [ 4]  170 	ld	e, l
+    00000090 54               [ 4]  171 	ld	d, h
+    00000091 1A               [ 8]  172 	ld	a, (de)
+    00000092 5F               [ 4]  173 	ld	e, a
+                                    174 ;src/games/hoppy_snake/snake_event_handler.c:29: move_sprite(get_head_sprite(*head_tile),
+    00000093 0A               [ 8]  175 	ld	a, (bc)
+    00000094 D5               [16]  176 	push	de
+    00000095 CDr00r00         [24]  177 	call	_get_head_sprite
+    00000098 4F               [ 4]  178 	ld	c, a
+    00000099 D1               [12]  179 	pop	de
+                                    180 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    0000009A AF               [ 4]  181 	xor	a, a
+    0000009B 69               [ 4]  182 	ld	l, c
+    0000009C 67               [ 4]  183 	ld	h, a
+    0000009D 29               [ 8]  184 	add	hl, hl
+    0000009E 29               [ 8]  185 	add	hl, hl
+    0000009F 01r00r00         [12]  186 	ld	bc, #_shadow_OAM
+    000000A2 09               [ 8]  187 	add	hl, bc
+                                    188 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+    000000A3 E5               [16]  189 	push	hl
+    000000A4 F8 02            [12]  190 	ldhl	sp,	#2
+    000000A6 7E               [ 8]  191 	ld	a, (hl)
+    000000A7 E1               [12]  192 	pop	hl
+    000000A8 22               [ 8]  193 	ld	(hl+), a
+    000000A9 73               [ 8]  194 	ld	(hl), e
+                                    195 ;src/games/hoppy_snake/snake_event_handler.c:32: );
+                                    196 ;src/games/hoppy_snake/snake_event_handler.c:33: }
+    000000AA E8 04            [16]  197 	add	sp, #4
+    000000AC C9               [16]  198 	ret
+                                    199 	.area _CODE
+                                    200 	.area _INITIALIZER
+                                    201 	.area _CABS (ABS)

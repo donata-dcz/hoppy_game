@@ -1,0 +1,39 @@
+XL4
+H A areas 2 global symbols
+M snake_board_t
+S .__.ABS. Def00000000
+A _CODE size 48 flags 0 addr 0
+S _get_tile_at Def00000000
+A _HRAM size 0 flags 0 addr 0
+A _DATA size 0 flags 0 addr 0
+A _INITIALIZED size 0 flags 0 addr 0
+A _DABS size 0 flags 8 addr 0
+A _HOME size 0 flags 0 addr 0
+A _GSINIT size 0 flags 0 addr 0
+A _GSFINAL size 0 flags 0 addr 0
+A _INITIALIZER size 0 flags 0 addr 0
+A _CABS size 0 flags 8 addr 0
+T 00 00 00 00
+R 00 00 00 00
+T 00 00 00 00 E8 FC F8 02 7B 22 72 F8 06 2A 4F 46
+R 00 00 00 00
+T 0C 00 00 00 79 D6 11 78 DE 00 30 13 23 7E F8 00
+R 00 00 00 00
+T 18 00 00 00 77 F8 09 7E F8 01 32 2A D6 14 7E DE
+R 00 00 00 00
+T 24 00 00 00 00 38 05
+R 00 00 00 00
+T 27 00 00 00
+R 00 00 00 00
+T 27 00 00 00 01 00 00 18 16
+R 00 00 00 00
+T 2C 00 00 00
+R 00 00 00 00
+T 2C 00 00 00 69 60 29 29 09 29 29 4D 44 E1 E5 09
+R 00 00 00 00
+T 38 00 00 00 4D 44 F8 02 2A 66 6F 09 4D 44
+R 00 00 00 00
+T 42 00 00 00
+R 00 00 00 00
+T 42 00 00 00 E8 04 E1 E8 04 E9
+R 00 00 00 00

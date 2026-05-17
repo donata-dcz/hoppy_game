@@ -1,0 +1,37 @@
+XL4
+H A areas 2 global symbols
+M get_head_sprite
+S .__.ABS. Def00000000
+A _CODE size 19 flags 0 addr 0
+S _get_head_sprite Def00000000
+A _HRAM size 0 flags 0 addr 0
+A _DATA size 0 flags 0 addr 0
+A _INITIALIZED size 0 flags 0 addr 0
+A _DABS size 0 flags 8 addr 0
+A _HOME size 0 flags 0 addr 0
+A _GSINIT size 0 flags 0 addr 0
+A _GSFINAL size 0 flags 0 addr 0
+A _INITIALIZER size 0 flags 0 addr 0
+A _CABS size 0 flags 8 addr 0
+T 00 00 00 00
+R 00 00 00 00
+T 00 00 00 00 FE 08 28 0A FE 10 28 09 D6 20 28 08
+R 00 00 00 00
+T 0C 00 00 00 18 09
+R 00 00 00 00
+T 0E 00 00 00
+R 00 00 00 00
+T 0E 00 00 00 3E 01 C9
+R 00 00 00 00
+T 11 00 00 00
+R 00 00 00 00
+T 11 00 00 00 3E 02 C9
+R 00 00 00 00
+T 14 00 00 00
+R 00 00 00 00
+T 14 00 00 00 3E 03 C9
+R 00 00 00 00
+T 17 00 00 00
+R 00 00 00 00
+T 17 00 00 00 AF C9
+R 00 00 00 00

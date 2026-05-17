@@ -1,0 +1,16 @@
+/*
+** EPITECH PROJECT, 2026
+** G-ING-401-PAR-4-1-cartridge-2
+** File description:
+** snake_body.h
+*/
+
+#ifndef SNAKE_BODY_TILES
+    #define SNAKE_BODY_TILES
+
+static const unsigned char SnakeBodyTiles[] = {
+    0x3C, 0x18, 0x66, 0x3C, 0xC3, 0x66, 0x81, 0xC3,
+    0x81, 0xC3, 0xC3, 0x66, 0x66, 0x3C, 0x3C, 0x18
+};
+
+#endif

@@ -1,0 +1,22 @@
+XL4
+H A areas 3 global symbols
+M coords_t
+S .__.ABS. Def00000000
+S _memcpy Ref00000000
+A _CODE size F flags 0 addr 0
+S _set_coords Def00000000
+A _HRAM size 0 flags 0 addr 0
+A _DATA size 0 flags 0 addr 0
+A _INITIALIZED size 0 flags 0 addr 0
+A _DABS size 0 flags 8 addr 0
+A _HOME size 0 flags 0 addr 0
+A _GSINIT size 0 flags 0 addr 0
+A _GSFINAL size 0 flags 0 addr 0
+A _INITIALIZER size 0 flags 0 addr 0
+A _CABS size 0 flags 8 addr 0
+T 00 00 00 00
+R 00 00 00 00
+T 00 00 00 00 F8 02 4D 44 21 04 00 E5 CD 00 00 E1
+R 00 00 00 00 02 0D 01 00
+T 0C 00 00 00 E8 04 E9
+R 00 00 00 00

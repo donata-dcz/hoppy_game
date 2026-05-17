@@ -1,0 +1,17 @@
+/*
+** EPITECH PROJECT, 2026
+** G-ING-401-PAR-4-1-cartridge-2
+** File description:
+** checkerboard.h
+*/
+
+#ifndef CHECKERBOARD_H
+    #define CHECKERBOARD_H
+
+const unsigned char CheckerBoardTiles[] =
+{
+    0xAA, 0xAA, 0x55, 0x55, 0xAA, 0xAA, 0x55, 0x55,
+    0xAA, 0xAA, 0x55, 0x55, 0xAA, 0xAA, 0x55, 0x55
+};
+
+#endif

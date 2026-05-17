@@ -1,0 +1,102 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.5.1 #15267 (Linux)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module get_member_next
+                                      6 	
+                                      7 ;--------------------------------------------------------
+                                      8 ; Public variables in this module
+                                      9 ;--------------------------------------------------------
+                                     10 	.globl _get_coords_next
+                                     11 	.globl _get_tile_at
+                                     12 	.globl _get_member_next
+                                     13 ;--------------------------------------------------------
+                                     14 ; special function registers
+                                     15 ;--------------------------------------------------------
+                                     16 	.area _HRAM
+                                     17 ;--------------------------------------------------------
+                                     18 ; ram data
+                                     19 ;--------------------------------------------------------
+                                     20 	.area _DATA
+                                     21 ;--------------------------------------------------------
+                                     22 ; ram data
+                                     23 ;--------------------------------------------------------
+                                     24 	.area _INITIALIZED
+                                     25 ;--------------------------------------------------------
+                                     26 ; absolute external ram data
+                                     27 ;--------------------------------------------------------
+                                     28 	.area _DABS (ABS)
+                                     29 ;--------------------------------------------------------
+                                     30 ; global & static initialisations
+                                     31 ;--------------------------------------------------------
+                                     32 	.area _HOME
+                                     33 	.area _GSINIT
+                                     34 	.area _GSFINAL
+                                     35 	.area _GSINIT
+                                     36 ;--------------------------------------------------------
+                                     37 ; Home
+                                     38 ;--------------------------------------------------------
+                                     39 	.area _HOME
+                                     40 	.area _HOME
+                                     41 ;--------------------------------------------------------
+                                     42 ; code
+                                     43 ;--------------------------------------------------------
+                                     44 	.area _CODE
+                                     45 ;src/games/hoppy_snake/get_member_next.c:13: tile_data_t *get_member_next(snake_game_t *snake_game, coords_t coords)
+                                     46 ;	---------------------------------
+                                     47 ; Function get_member_next
+                                     48 ; ---------------------------------
+    00000000                         49 _get_member_next::
+    00000000 E8 FC            [16]   50 	add	sp, #-4
+                                     51 ;src/games/hoppy_snake/get_member_next.c:15: coords_t next_coords = coords;
+    00000002 D5               [16]   52 	push	de
+    00000003 01 04 00         [12]   53 	ld	bc, #0x0004
+    00000006 C5               [16]   54 	push	bc
+    00000007 21 0A 00         [12]   55 	ld	hl, #10
+    0000000A 39               [ 8]   56 	add	hl, sp
+    0000000B 4D               [ 4]   57 	ld	c, l
+    0000000C 44               [ 4]   58 	ld	b, h
+    0000000D 21 04 00         [12]   59 	ld	hl, #4
+    00000010 39               [ 8]   60 	add	hl, sp
+    00000011 5D               [ 4]   61 	ld	e, l
+    00000012 54               [ 4]   62 	ld	d, h
+    00000013 CDr00r00         [24]   63 	call	___memcpy
+    00000016 D1               [12]   64 	pop	de
+                                     65 ;src/games/hoppy_snake/get_member_next.c:17: if (get_coords_next(&(snake_game->board), &next_coords) == FAILURE)
+    00000017 21 00 00         [12]   66 	ld	hl, #0
+    0000001A 39               [ 8]   67 	add	hl, sp
+    0000001B 4D               [ 4]   68 	ld	c, l
+    0000001C 44               [ 4]   69 	ld	b, h
+    0000001D D5               [16]   70 	push	de
+    0000001E CDr00r00         [24]   71 	call	_get_coords_next
+    00000021 D1               [12]   72 	pop	de
+    00000022 79               [ 4]   73 	ld	a, c
+    00000023 A0               [ 4]   74 	and	a, b
+    00000024 3C               [ 4]   75 	inc	a
+    00000025 20 05            [12]   76 	jr	NZ, 00102$
+                                     77 ;src/games/hoppy_snake/get_member_next.c:18: return NULL;
+    00000027 01 00 00         [12]   78 	ld	bc, #0x0000
+    0000002A 18 10            [12]   79 	jr	00103$
+    0000002C                         80 00102$:
+                                     81 ;src/games/hoppy_snake/get_member_next.c:19: return get_tile_at(&(snake_game->board), next_coords);
+    0000002C 21 03 00         [12]   82 	ld	hl,#0x3
+    0000002F 39               [ 8]   83 	add	hl,sp
+    00000030 3A               [ 8]   84 	ld	a, (hl-)
+    00000031 47               [ 4]   85 	ld	b, a
+    00000032 3A               [ 8]   86 	ld	a, (hl-)
+    00000033 4F               [ 4]   87 	ld	c, a
+    00000034 C5               [16]   88 	push	bc
+    00000035 3A               [ 8]   89 	ld	a, (hl-)
+    00000036 47               [ 4]   90 	ld	b, a
+    00000037 4E               [ 8]   91 	ld	c, (hl)
+    00000038 C5               [16]   92 	push	bc
+    00000039 CDr00r00         [24]   93 	call	_get_tile_at
+    0000003C                         94 00103$:
+                                     95 ;src/games/hoppy_snake/get_member_next.c:20: }
+    0000003C E8 04            [16]   96 	add	sp, #4
+    0000003E E1               [12]   97 	pop	hl
+    0000003F E8 04            [16]   98 	add	sp, #4
+    00000041 E9               [ 4]   99 	jp	(hl)
+                                    100 	.area _CODE
+                                    101 	.area _INITIALIZER
+                                    102 	.area _CABS (ABS)

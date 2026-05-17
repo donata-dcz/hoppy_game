@@ -1,0 +1,54 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 1
+Hexadecimal [32-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =   00002710 L
+    .__.ABS.                                                    =   00000000 G
+    .__.CPU.                                                    =   00000000 L
+    .__.H$L.                                                    =   00000000 L
+    _LCDC_REG                                                       ******** GX
+    ___sdcc_call_hl                                                 ******** GX
+  0 ___str_0                                                        0000009D R
+  0 ___str_1                                                        000000A9 R
+  0 ___str_2                                                        000000B4 R
+  0 ___str_3                                                        000000BE R
+  0 ___str_4                                                        000000CA R
+  0 ___str_5                                                        000000CC R
+    __modsint                                                       ******** GX
+    _checkerboard_wipe_transition                                   ******** GX
+    _clear_all_sprites                                              ******** GX
+    _display_off                                                    ******** GX
+  0 _draw_menu                                                      00000000 GR
+    _draw_text                                                      ******** GX
+    _flappy_get_state                                               ******** GX
+    _flappy_init                                                    ******** GX
+  0 _flappy_play_round                                              000001B3 R
+    _flappy_update                                                  ******** GX
+    _game_over_screen                                               ******** GX
+  0 _handle_menu_input                                              000000CE GR
+  0 _launch_selected_game                                           00000111 GR
+  0 _run_flappy                                                     000001E3 GR
+    _run_hoppy                                                      ******** GX
+  0 _run_snake                                                      000001EB GR
+    _set_bkg_tiles                                                  ******** GX
+    _snake_game_loop                                                ******** GX
+    _vsync                                                          ******** GX
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
+Hexadecimal [32-Bits]
+
+Area Table
+
+   0 _CODE                                      size      1F8   flags    0
+   1 _HRAM                                      size        0   flags    0
+   2 _DATA                                      size        0   flags    0
+   3 _INITIALIZED                               size        0   flags    0
+   4 _DABS                                      size        0   flags    8
+   5 _HOME                                      size        0   flags    0
+   6 _GSINIT                                    size        0   flags    0
+   7 _GSFINAL                                   size        0   flags    0
+   8 _INITIALIZER                               size        0   flags    0
+   9 _CABS                                      size        0   flags    8
+

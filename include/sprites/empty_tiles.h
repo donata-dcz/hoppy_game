@@ -1,0 +1,16 @@
+/*
+** EPITECH PROJECT, 2026
+** G-ING-401-PAR-4-1-cartridge-2
+** File description:
+** empty_tiles.h
+*/
+
+#ifndef EMPTY_TILES
+    #define EMPTY_TILES
+
+static const unsigned char EmptyTile[] = {
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+};
+
+#endif

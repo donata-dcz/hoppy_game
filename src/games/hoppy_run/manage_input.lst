@@ -1,0 +1,744 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.5.1 #15267 (Linux)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module manage_input
+                                      6 	
+                                      7 ;--------------------------------------------------------
+                                      8 ; Public variables in this module
+                                      9 ;--------------------------------------------------------
+                                     10 	.globl _rand
+                                     11 	.globl _draw_pipe_at
+                                     12 	.globl _joypad
+                                     13 	.globl _handle_input
+                                     14 	.globl _handle_jump
+                                     15 	.globl _handle_run
+                                     16 	.globl _update_pipe
+                                     17 	.globl _handle_collisions
+                                     18 ;--------------------------------------------------------
+                                     19 ; special function registers
+                                     20 ;--------------------------------------------------------
+                                     21 	.area _HRAM
+                                     22 ;--------------------------------------------------------
+                                     23 ; ram data
+                                     24 ;--------------------------------------------------------
+                                     25 	.area _DATA
+                                     26 ;--------------------------------------------------------
+                                     27 ; ram data
+                                     28 ;--------------------------------------------------------
+                                     29 	.area _INITIALIZED
+                                     30 ;--------------------------------------------------------
+                                     31 ; absolute external ram data
+                                     32 ;--------------------------------------------------------
+                                     33 	.area _DABS (ABS)
+                                     34 ;--------------------------------------------------------
+                                     35 ; global & static initialisations
+                                     36 ;--------------------------------------------------------
+                                     37 	.area _HOME
+                                     38 	.area _GSINIT
+                                     39 	.area _GSFINAL
+                                     40 	.area _GSINIT
+                                     41 ;--------------------------------------------------------
+                                     42 ; Home
+                                     43 ;--------------------------------------------------------
+                                     44 	.area _HOME
+                                     45 	.area _HOME
+                                     46 ;--------------------------------------------------------
+                                     47 ; code
+                                     48 ;--------------------------------------------------------
+                                     49 	.area _CODE
+                                     50 ;src/games/hoppy_run/manage_input.c:13: void handle_input(input_t *input)
+                                     51 ;	---------------------------------
+                                     52 ; Function handle_input
+                                     53 ; ---------------------------------
+    00000000                         54 _handle_input::
+    00000000 4B               [ 4]   55 	ld	c, e
+    00000001 42               [ 4]   56 	ld	b, d
+                                     57 ;src/games/hoppy_run/manage_input.c:15: input->keys = joypad();
+    00000002 69               [ 4]   58 	ld	l, c
+    00000003 60               [ 4]   59 	ld	h, b
+    00000004 CDr00r00         [24]   60 	call	_joypad
+    00000007 77               [ 8]   61 	ld	(hl), a
+                                     62 ;src/games/hoppy_run/manage_input.c:16: if ((input->keys & J_A || input->keys & J_UP) && !input->is_jumping) {
+    00000008 CB 67            [ 8]   63 	bit	4, a
+    0000000A 20 03            [12]   64 	jr	NZ, 00104$
+    0000000C CB 56            [12]   65 	bit	2, (hl)
+    0000000E C8               [20]   66 	ret	Z
+    0000000F                         67 00104$:
+    0000000F 69               [ 4]   68 	ld	l, c
+    00000010 60               [ 4]   69 	ld	h, b
+    00000011 23               [ 8]   70 	inc	hl
+    00000012 23               [ 8]   71 	inc	hl
+    00000013 CB 46            [12]   72 	bit	0, (hl)
+    00000015 C0               [20]   73 	ret	NZ
+                                     74 ;src/games/hoppy_run/manage_input.c:17: input->is_jumping = true;
+    00000016 36 01            [12]   75 	ld	(hl), #0x01
+                                     76 ;src/games/hoppy_run/manage_input.c:18: input->jump_level -= JUMP_FORCE;
+    00000018 69               [ 4]   77 	ld	l, c
+    00000019 60               [ 4]   78 	ld	h, b
+    0000001A 23               [ 8]   79 	inc	hl
+    0000001B 7E               [ 8]   80 	ld	a, (hl)
+    0000001C C6 F7            [ 8]   81 	add	a, #0xf7
+    0000001E 77               [ 8]   82 	ld	(hl), a
+                                     83 ;src/games/hoppy_run/manage_input.c:19: input->hover_timer = HOVER_FRAMES;
+    0000001F 21 04 00         [12]   84 	ld	hl, #0x0004
+    00000022 09               [ 8]   85 	add	hl, bc
+    00000023 36 08            [12]   86 	ld	(hl), #0x08
+                                     87 ;src/games/hoppy_run/manage_input.c:21: }
+    00000025 C9               [16]   88 	ret
+                                     89 ;src/games/hoppy_run/manage_input.c:23: void handle_jump(input_t *input)
+                                     90 ;	---------------------------------
+                                     91 ; Function handle_jump
+                                     92 ; ---------------------------------
+    00000026                         93 _handle_jump::
+    00000026 E8 FA            [16]   94 	add	sp, #-6
+    00000028 F8 04            [12]   95 	ldhl	sp,	#4
+    0000002A 7B               [ 4]   96 	ld	a, e
+    0000002B 22               [ 8]   97 	ld	(hl+), a
+                                     98 ;src/games/hoppy_run/manage_input.c:25: input->jump_level += GRAVITY;
+    0000002C 7A               [ 4]   99 	ld	a, d
+    0000002D 32               [ 8]  100 	ld	(hl-), a
+    0000002E 2A               [ 8]  101 	ld	a, (hl+)
+    0000002F 5F               [ 4]  102 	ld	e, a
+    00000030 56               [ 8]  103 	ld	d, (hl)
+    00000031 6B               [ 4]  104 	ld	l, e
+    00000032 62               [ 4]  105 	ld	h, d
+    00000033 23               [ 8]  106 	inc	hl
+    00000034 33               [ 8]  107 	inc	sp
+    00000035 33               [ 8]  108 	inc	sp
+    00000036 5D               [ 4]  109 	ld	e, l
+    00000037 54               [ 4]  110 	ld	d, h
+    00000038 D5               [16]  111 	push	de
+    00000039 1A               [ 8]  112 	ld	a, (de)
+    0000003A 4F               [ 4]  113 	ld	c, a
+    0000003B 0C               [ 4]  114 	inc	c
+    0000003C E1               [12]  115 	pop	hl
+    0000003D E5               [16]  116 	push	hl
+    0000003E 71               [ 8]  117 	ld	(hl), c
+                                    118 ;src/games/hoppy_run/manage_input.c:26: if (input->jump_level >= 0 && input->hover_timer > 0) {
+    0000003F F8 04            [12]  119 	ldhl	sp,#4
+    00000041 2A               [ 8]  120 	ld	a, (hl+)
+    00000042 5F               [ 4]  121 	ld	e, a
+    00000043 56               [ 8]  122 	ld	d, (hl)
+    00000044 21 04 00         [12]  123 	ld	hl, #0x0004
+    00000047 19               [ 8]  124 	add	hl, de
+    00000048 E5               [16]  125 	push	hl
+    00000049 7D               [ 4]  126 	ld	a, l
+    0000004A F8 04            [12]  127 	ldhl	sp,	#4
+    0000004C 77               [ 8]  128 	ld	(hl), a
+    0000004D E1               [12]  129 	pop	hl
+    0000004E 7C               [ 4]  130 	ld	a, h
+    0000004F F8 03            [12]  131 	ldhl	sp,	#3
+    00000051 77               [ 8]  132 	ld	(hl), a
+    00000052 CB 79            [ 8]  133 	bit	7, c
+    00000054 20 13            [12]  134 	jr	NZ, 00102$
+    00000056 2B               [ 8]  135 	dec	hl
+    00000057 2A               [ 8]  136 	ld	a, (hl+)
+    00000058 5F               [ 4]  137 	ld	e, a
+    00000059 56               [ 8]  138 	ld	d, (hl)
+    0000005A 1A               [ 8]  139 	ld	a, (de)
+    0000005B B7               [ 4]  140 	or	a, a
+    0000005C 28 0B            [12]  141 	jr	Z, 00102$
+                                    142 ;src/games/hoppy_run/manage_input.c:27: input->hover_timer--;
+    0000005E 2B               [ 8]  143 	dec	hl
+    0000005F 3D               [ 4]  144 	dec	a
+    00000060 5E               [ 8]  145 	ld	e, (hl)
+    00000061 23               [ 8]  146 	inc	hl
+    00000062 66               [ 8]  147 	ld	h, (hl)
+    00000063 6B               [ 4]  148 	ld	l, e
+    00000064 77               [ 8]  149 	ld	(hl), a
+                                    150 ;src/games/hoppy_run/manage_input.c:28: input->jump_level = 0;
+    00000065 E1               [12]  151 	pop	hl
+    00000066 36 00            [12]  152 	ld	(hl), #0x00
+    00000068 E5               [16]  153 	push	hl
+    00000069                        154 00102$:
+                                    155 ;src/games/hoppy_run/manage_input.c:30: input->cat_y += input->jump_level;
+    00000069 F8 04            [12]  156 	ldhl	sp,	#4
+    0000006B 2A               [ 8]  157 	ld	a, (hl+)
+    0000006C 4F               [ 4]  158 	ld	c, a
+    0000006D 46               [ 8]  159 	ld	b, (hl)
+    0000006E 03               [ 8]  160 	inc	bc
+    0000006F 03               [ 8]  161 	inc	bc
+    00000070 03               [ 8]  162 	inc	bc
+    00000071 0A               [ 8]  163 	ld	a, (bc)
+    00000072 D1               [12]  164 	pop	de
+    00000073 D5               [16]  165 	push	de
+    00000074 F5               [16]  166 	push	af
+    00000075 1A               [ 8]  167 	ld	a, (de)
+    00000076 6F               [ 4]  168 	ld	l, a
+    00000077 F1               [12]  169 	pop	af
+    00000078 85               [ 4]  170 	add	a, l
+                                    171 ;src/games/hoppy_run/manage_input.c:31: if (input->cat_y >= GROUND_Y) {
+    00000079 02               [ 8]  172 	ld	(bc), a
+    0000007A EE 80            [ 8]  173 	xor	a, #0x80
+    0000007C D6 F4            [ 8]  174 	sub	a, #0xf4
+    0000007E 38 17            [12]  175 	jr	C, 00105$
+                                    176 ;src/games/hoppy_run/manage_input.c:32: input->cat_y = GROUND_Y;
+    00000080 3E 74            [ 8]  177 	ld	a, #0x74
+    00000082 02               [ 8]  178 	ld	(bc), a
+                                    179 ;src/games/hoppy_run/manage_input.c:33: input->is_jumping = false;
+    00000083 F8 04            [12]  180 	ldhl	sp,	#4
+    00000085 2A               [ 8]  181 	ld	a, (hl+)
+    00000086 5F               [ 4]  182 	ld	e, a
+    00000087 56               [ 8]  183 	ld	d, (hl)
+    00000088 13               [ 8]  184 	inc	de
+    00000089 13               [ 8]  185 	inc	de
+    0000008A AF               [ 4]  186 	xor	a, a
+    0000008B 12               [ 8]  187 	ld	(de), a
+                                    188 ;src/games/hoppy_run/manage_input.c:34: input->jump_level = 0;
+    0000008C E1               [12]  189 	pop	hl
+    0000008D 36 00            [12]  190 	ld	(hl), #0x00
+    0000008F E5               [16]  191 	push	hl
+                                    192 ;src/games/hoppy_run/manage_input.c:35: input->hover_timer = 0;
+    00000090 F8 02            [12]  193 	ldhl	sp,	#2
+    00000092 2A               [ 8]  194 	ld	a, (hl+)
+    00000093 66               [ 8]  195 	ld	h, (hl)
+    00000094 6F               [ 4]  196 	ld	l, a
+    00000095 36 00            [12]  197 	ld	(hl), #0x00
+    00000097                        198 00105$:
+                                    199 ;src/games/hoppy_run/manage_input.c:37: move_sprite(0, CAT_X, (uint8_t)input->cat_y);
+    00000097 0A               [ 8]  200 	ld	a, (bc)
+                                    201 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+                                    202 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+    00000098 21r00r00         [12]  203 	ld	hl, #_shadow_OAM
+    0000009B 22               [ 8]  204 	ld	(hl+), a
+    0000009C 36 28            [12]  205 	ld	(hl), #0x28
+                                    206 ;src/games/hoppy_run/manage_input.c:38: move_sprite(1, CAT_X + 8, (uint8_t)input->cat_y);
+    0000009E 0A               [ 8]  207 	ld	a, (bc)
+                                    208 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+                                    209 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+    0000009F 21r04r00         [12]  210 	ld	hl, #(_shadow_OAM + 4)
+    000000A2 22               [ 8]  211 	ld	(hl+), a
+    000000A3 36 30            [12]  212 	ld	(hl), #0x30
+                                    213 ;src/games/hoppy_run/manage_input.c:38: move_sprite(1, CAT_X + 8, (uint8_t)input->cat_y);
+                                    214 ;src/games/hoppy_run/manage_input.c:39: }
+    000000A5 E8 06            [16]  215 	add	sp, #6
+    000000A7 C9               [16]  216 	ret
+                                    217 ;src/games/hoppy_run/manage_input.c:41: void handle_run(display_t *display)
+                                    218 ;	---------------------------------
+                                    219 ; Function handle_run
+                                    220 ; ---------------------------------
+    000000A8                        221 _handle_run::
+    000000A8 3B               [ 8]  222 	dec	sp
+                                    223 ;src/games/hoppy_run/manage_input.c:43: display->counter++;
+    000000A9 6B               [ 4]  224 	ld	l, e
+    000000AA 62               [ 4]  225 	ld	h, d
+    000000AB 23               [ 8]  226 	inc	hl
+    000000AC 34               [12]  227 	inc	(hl)
+    000000AD 7E               [ 8]  228 	ld	a, (hl)
+                                    229 ;src/games/hoppy_run/manage_input.c:44: if (display->counter >= ANIM_SPEED) {
+    000000AE D6 08            [ 8]  230 	sub	a, #0x08
+    000000B0 38 27            [12]  231 	jr	C, 00105$
+                                    232 ;src/games/hoppy_run/manage_input.c:45: display->counter = 0;
+    000000B2 36 00            [12]  233 	ld	(hl), #0x00
+                                    234 ;src/games/hoppy_run/manage_input.c:46: display->frame = (display->frame + 1) % 3;
+    000000B4 1A               [ 8]  235 	ld	a, (de)
+    000000B5 6F               [ 4]  236 	ld	l, a
+    000000B6 26 00            [ 8]  237 	ld	h, #0x00
+    000000B8 23               [ 8]  238 	inc	hl
+    000000B9 D5               [16]  239 	push	de
+    000000BA 01 03 00         [12]  240 	ld	bc, #0x0003
+    000000BD 5D               [ 4]  241 	ld	e, l
+    000000BE 54               [ 4]  242 	ld	d, h
+    000000BF CDr00r00         [24]  243 	call	__modsint
+    000000C2 D1               [12]  244 	pop	de
+    000000C3 79               [ 4]  245 	ld	a, c
+    000000C4 12               [ 8]  246 	ld	(de), a
+                                    247 ;src/games/hoppy_run/manage_input.c:47: set_sprite_tile(0, display->frame * 4);
+    000000C5 87               [ 4]  248 	add	a, a
+    000000C6 87               [ 4]  249 	add	a, a
+    000000C7 F8 00            [12]  250 	ldhl	sp,	#0
+    000000C9 77               [ 8]  251 	ld	(hl), a
+                                    252 ;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+    000000CA 01r02r00         [12]  253 	ld	bc, #_shadow_OAM+2
+    000000CD 7E               [ 8]  254 	ld	a, (hl)
+    000000CE 02               [ 8]  255 	ld	(bc), a
+                                    256 ;src/games/hoppy_run/manage_input.c:48: set_sprite_tile(1, display->frame * 4 + 2);
+    000000CF 1A               [ 8]  257 	ld	a, (de)
+    000000D0 87               [ 4]  258 	add	a, a
+    000000D1 87               [ 4]  259 	add	a, a
+    000000D2 C6 02            [ 8]  260 	add	a, #0x02
+    000000D4 4F               [ 4]  261 	ld	c, a
+                                    262 ;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+    000000D5 21r06r00         [12]  263 	ld	hl, #(_shadow_OAM + 6)
+    000000D8 71               [ 8]  264 	ld	(hl), c
+                                    265 ;src/games/hoppy_run/manage_input.c:48: set_sprite_tile(1, display->frame * 4 + 2);
+    000000D9                        266 00105$:
+                                    267 ;src/games/hoppy_run/manage_input.c:50: }
+    000000D9 33               [ 8]  268 	inc	sp
+    000000DA C9               [16]  269 	ret
+                                    270 ;src/games/hoppy_run/manage_input.c:52: void update_pipe(pipe_t *pipe, display_t *display)
+                                    271 ;	---------------------------------
+                                    272 ; Function update_pipe
+                                    273 ; ---------------------------------
+    000000DB                        274 _update_pipe::
+    000000DB E8 F4            [16]  275 	add	sp, #-12
+    000000DD F8 0A            [12]  276 	ldhl	sp,	#10
+    000000DF 79               [ 4]  277 	ld	a, c
+    000000E0 22               [ 8]  278 	ld	(hl+), a
+    000000E1 70               [ 8]  279 	ld	(hl), b
+                                    280 ;src/games/hoppy_run/manage_input.c:56: if (!pipe->active) {
+    000000E2 21 04 00         [12]  281 	ld	hl, #0x0004
+    000000E5 19               [ 8]  282 	add	hl, de
+    000000E6 4D               [ 4]  283 	ld	c, l
+    000000E7 44               [ 4]  284 	ld	b, h
+    000000E8 0A               [ 8]  285 	ld	a, (bc)
+    000000E9 F8 05            [12]  286 	ldhl	sp,	#5
+                                    287 ;src/games/hoppy_run/manage_input.c:57: pipe->world_x = display->scroll + PIPE_SPAWN_X;
+    000000EB 22               [ 8]  288 	ld	(hl+), a
+    000000EC 7B               [ 4]  289 	ld	a, e
+    000000ED 22               [ 8]  290 	ld	(hl+), a
+    000000EE 72               [ 8]  291 	ld	(hl), d
+    000000EF D5               [16]  292 	push	de
+    000000F0 F8 0C            [12]  293 	ldhl	sp,#12
+    000000F2 2A               [ 8]  294 	ld	a, (hl+)
+    000000F3 5F               [ 4]  295 	ld	e, a
+    000000F4 56               [ 8]  296 	ld	d, (hl)
+    000000F5 21 02 00         [12]  297 	ld	hl, #0x0002
+    000000F8 19               [ 8]  298 	add	hl, de
+    000000F9 D1               [12]  299 	pop	de
+    000000FA E5               [16]  300 	push	hl
+    000000FB 7D               [ 4]  301 	ld	a, l
+    000000FC F8 0A            [12]  302 	ldhl	sp,	#10
+    000000FE 77               [ 8]  303 	ld	(hl), a
+    000000FF E1               [12]  304 	pop	hl
+    00000100 7C               [ 4]  305 	ld	a, h
+    00000101 F8 09            [12]  306 	ldhl	sp,	#9
+    00000103 77               [ 8]  307 	ld	(hl), a
+                                    308 ;src/games/hoppy_run/manage_input.c:58: pipe->col = (pipe->world_x >> 3) & 0x1F;
+    00000104 D5               [16]  309 	push	de
+    00000105 21 03 00         [12]  310 	ld	hl, #0x0003
+    00000108 19               [ 8]  311 	add	hl, de
+    00000109 D1               [12]  312 	pop	de
+    0000010A 33               [ 8]  313 	inc	sp
+    0000010B 33               [ 8]  314 	inc	sp
+    0000010C E5               [16]  315 	push	hl
+                                    316 ;src/games/hoppy_run/manage_input.c:59: pipe->height = PIPE_HEIGHT_MIN +
+    0000010D 13               [ 8]  317 	inc	de
+    0000010E 13               [ 8]  318 	inc	de
+    0000010F F8 02            [12]  319 	ldhl	sp,	#2
+    00000111 7B               [ 4]  320 	ld	a, e
+    00000112 22               [ 8]  321 	ld	(hl+), a
+                                    322 ;src/games/hoppy_run/manage_input.c:56: if (!pipe->active) {
+    00000113 7A               [ 4]  323 	ld	a, d
+    00000114 22               [ 8]  324 	ld	(hl+), a
+    00000115 23               [ 8]  325 	inc	hl
+    00000116 CB 46            [12]  326 	bit	0, (hl)
+    00000118 20 4D            [12]  327 	jr	NZ, 00102$
+                                    328 ;src/games/hoppy_run/manage_input.c:57: pipe->world_x = display->scroll + PIPE_SPAWN_X;
+    0000011A F8 08            [12]  329 	ldhl	sp,#8
+    0000011C 2A               [ 8]  330 	ld	a, (hl+)
+    0000011D 5F               [ 4]  331 	ld	e, a
+    0000011E 56               [ 8]  332 	ld	d, (hl)
+    0000011F 1A               [ 8]  333 	ld	a, (de)
+    00000120 6F               [ 4]  334 	ld	l, a
+    00000121 13               [ 8]  335 	inc	de
+    00000122 1A               [ 8]  336 	ld	a, (de)
+    00000123 57               [ 4]  337 	ld	d, a
+    00000124 7D               [ 4]  338 	ld	a, l
+    00000125 C6 9A            [ 8]  339 	add	a, #0x9a
+    00000127 5F               [ 4]  340 	ld	e, a
+    00000128 7A               [ 4]  341 	ld	a, d
+    00000129 CE 00            [ 8]  342 	adc	a, #0x00
+    0000012B F8 04            [12]  343 	ldhl	sp,	#4
+    0000012D 73               [ 8]  344 	ld	(hl), e
+    0000012E 23               [ 8]  345 	inc	hl
+    0000012F 22               [ 8]  346 	ld	(hl+), a
+    00000130 2A               [ 8]  347 	ld	a, (hl+)
+    00000131 5F               [ 4]  348 	ld	e, a
+    00000132 56               [ 8]  349 	ld	d, (hl)
+    00000133 F8 04            [12]  350 	ldhl	sp,	#4
+    00000135 2A               [ 8]  351 	ld	a, (hl+)
+    00000136 12               [ 8]  352 	ld	(de), a
+    00000137 13               [ 8]  353 	inc	de
+                                    354 ;src/games/hoppy_run/manage_input.c:58: pipe->col = (pipe->world_x >> 3) & 0x1F;
+    00000138 3A               [ 8]  355 	ld	a, (hl-)
+    00000139 12               [ 8]  356 	ld	(de), a
+    0000013A 2A               [ 8]  357 	ld	a, (hl+)
+    0000013B 5F               [ 4]  358 	ld	e, a
+    0000013C 56               [ 8]  359 	ld	d, (hl)
+    0000013D CB 3A            [ 8]  360 	srl	d
+    0000013F CB 1B            [ 8]  361 	rr	e
+    00000141 CB 3A            [ 8]  362 	srl	d
+    00000143 CB 1B            [ 8]  363 	rr	e
+    00000145 CB 3A            [ 8]  364 	srl	d
+    00000147 CB 1B            [ 8]  365 	rr	e
+    00000149 7B               [ 4]  366 	ld	a, e
+    0000014A E6 1F            [ 8]  367 	and	a, #0x1f
+    0000014C E1               [12]  368 	pop	hl
+    0000014D E5               [16]  369 	push	hl
+    0000014E 77               [ 8]  370 	ld	(hl), a
+                                    371 ;src/games/hoppy_run/manage_input.c:60: (rand() % (PIPE_HEIGHT_MAX - PIPE_HEIGHT_MIN + 1));
+    0000014F CDr00r00         [24]  372 	call	_rand
+    00000152 7B               [ 4]  373 	ld	a, e
+    00000153 C5               [16]  374 	push	bc
+    00000154 1E 01            [ 8]  375 	ld	e, #0x01
+    00000156 CDr00r00         [24]  376 	call	__modschar
+    00000159 79               [ 4]  377 	ld	a, c
+    0000015A C1               [12]  378 	pop	bc
+    0000015B C6 02            [ 8]  379 	add	a, #0x02
+    0000015D F8 02            [12]  380 	ldhl	sp,	#2
+    0000015F 5E               [ 8]  381 	ld	e, (hl)
+    00000160 23               [ 8]  382 	inc	hl
+    00000161 66               [ 8]  383 	ld	h, (hl)
+    00000162 6B               [ 4]  384 	ld	l, e
+    00000163 77               [ 8]  385 	ld	(hl), a
+                                    386 ;src/games/hoppy_run/manage_input.c:61: pipe->active = true;
+    00000164 3E 01            [ 8]  387 	ld	a, #0x01
+    00000166 02               [ 8]  388 	ld	(bc), a
+    00000167                        389 00102$:
+                                    390 ;src/games/hoppy_run/manage_input.c:63: screen_x = (int16_t)pipe->world_x - (int16_t)display->scroll;
+    00000167 F8 06            [12]  391 	ldhl	sp,#6
+    00000169 2A               [ 8]  392 	ld	a, (hl+)
+    0000016A 5F               [ 4]  393 	ld	e, a
+    0000016B 3A               [ 8]  394 	ld	a, (hl-)
+    0000016C 57               [ 4]  395 	ld	d, a
+    0000016D 1A               [ 8]  396 	ld	a, (de)
+    0000016E 22               [ 8]  397 	ld	(hl+), a
+    0000016F 13               [ 8]  398 	inc	de
+    00000170 1A               [ 8]  399 	ld	a, (de)
+    00000171 32               [ 8]  400 	ld	(hl-), a
+    00000172 3A               [ 8]  401 	ld	a, (hl-)
+    00000173 2B               [ 8]  402 	dec	hl
+    00000174 77               [ 8]  403 	ld	(hl), a
+    00000175 F8 07            [12]  404 	ldhl	sp,	#7
+    00000177 3A               [ 8]  405 	ld	a, (hl-)
+    00000178 2B               [ 8]  406 	dec	hl
+    00000179 77               [ 8]  407 	ld	(hl), a
+    0000017A F8 08            [12]  408 	ldhl	sp,#8
+    0000017C 2A               [ 8]  409 	ld	a, (hl+)
+    0000017D 5F               [ 4]  410 	ld	e, a
+    0000017E 3A               [ 8]  411 	ld	a, (hl-)
+    0000017F 57               [ 4]  412 	ld	d, a
+    00000180 1A               [ 8]  413 	ld	a, (de)
+    00000181 22               [ 8]  414 	ld	(hl+), a
+    00000182 13               [ 8]  415 	inc	de
+    00000183 1A               [ 8]  416 	ld	a, (de)
+    00000184 32               [ 8]  417 	ld	(hl-), a
+    00000185 3A               [ 8]  418 	ld	a, (hl-)
+    00000186 2B               [ 8]  419 	dec	hl
+    00000187 77               [ 8]  420 	ld	(hl), a
+    00000188 F8 09            [12]  421 	ldhl	sp,	#9
+    0000018A 3A               [ 8]  422 	ld	a, (hl-)
+    0000018B 2B               [ 8]  423 	dec	hl
+    0000018C 32               [ 8]  424 	ld	(hl-), a
+    0000018D 2B               [ 8]  425 	dec	hl
+    0000018E 2B               [ 8]  426 	dec	hl
+    0000018F 2A               [ 8]  427 	ld	a, (hl+)
+    00000190 5F               [ 4]  428 	ld	e, a
+    00000191 2A               [ 8]  429 	ld	a, (hl+)
+    00000192 57               [ 4]  430 	ld	d, a
+    00000193 2A               [ 8]  431 	ld	a,	(hl+)
+    00000194 66               [ 8]  432 	ld	h, (hl)
+    00000195 6F               [ 4]  433 	ld	l, a
+    00000196 7B               [ 4]  434 	ld	a, e
+    00000197 95               [ 4]  435 	sub	a, l
+    00000198 5F               [ 4]  436 	ld	e, a
+    00000199 7A               [ 4]  437 	ld	a, d
+    0000019A 9C               [ 4]  438 	sbc	a, h
+    0000019B F8 09            [12]  439 	ldhl	sp,	#9
+    0000019D 32               [ 8]  440 	ld	(hl-), a
+    0000019E 73               [ 8]  441 	ld	(hl), e
+                                    442 ;src/games/hoppy_run/manage_input.c:65: draw_pipe_at(pipe->col, pipe->height, true);
+    0000019F F8 02            [12]  443 	ldhl	sp,#2
+    000001A1 2A               [ 8]  444 	ld	a, (hl+)
+    000001A2 5F               [ 4]  445 	ld	e, a
+    000001A3 56               [ 8]  446 	ld	d, (hl)
+    000001A4 1A               [ 8]  447 	ld	a, (de)
+    000001A5 F8 07            [12]  448 	ldhl	sp,	#7
+    000001A7 32               [ 8]  449 	ld	(hl-), a
+    000001A8 D1               [12]  450 	pop	de
+    000001A9 D5               [16]  451 	push	de
+    000001AA 1A               [ 8]  452 	ld	a, (de)
+                                    453 ;src/games/hoppy_run/manage_input.c:64: if (screen_x < -8) {
+    000001AB 22               [ 8]  454 	ld	(hl+), a
+    000001AC 23               [ 8]  455 	inc	hl
+    000001AD 2A               [ 8]  456 	ld	a, (hl+)
+    000001AE D6 F8            [ 8]  457 	sub	a, #0xf8
+    000001B0 7E               [ 8]  458 	ld	a, (hl)
+    000001B1 DE FF            [ 8]  459 	sbc	a, #0xff
+    000001B3 56               [ 8]  460 	ld	d, (hl)
+    000001B4 3E FF            [ 8]  461 	ld	a, #0xff
+    000001B6 CB 7F            [ 8]  462 	bit	7,a
+    000001B8 28 07            [12]  463 	jr	Z, 00121$
+    000001BA CB 7A            [ 8]  464 	bit	7, d
+    000001BC 20 08            [12]  465 	jr	NZ, 00122$
+    000001BE BF               [ 4]  466 	cp	a, a
+    000001BF 18 05            [12]  467 	jr	00122$
+    000001C1                        468 00121$:
+    000001C1 CB 7A            [ 8]  469 	bit	7, d
+    000001C3 28 01            [12]  470 	jr	Z, 00122$
+    000001C5 37               [ 4]  471 	scf
+    000001C6                        472 00122$:
+    000001C6 30 12            [12]  473 	jr	NC, 00104$
+                                    474 ;src/games/hoppy_run/manage_input.c:65: draw_pipe_at(pipe->col, pipe->height, true);
+    000001C8 C5               [16]  475 	push	bc
+    000001C9 3E 01            [ 8]  476 	ld	a, #0x01
+    000001CB F5               [16]  477 	push	af
+    000001CC 33               [ 8]  478 	inc	sp
+    000001CD F8 0A            [12]  479 	ldhl	sp,	#10
+    000001CF 3A               [ 8]  480 	ld	a, (hl-)
+    000001D0 5F               [ 4]  481 	ld	e, a
+    000001D1 7E               [ 8]  482 	ld	a, (hl)
+    000001D2 CDr00r00         [24]  483 	call	_draw_pipe_at
+    000001D5 C1               [12]  484 	pop	bc
+                                    485 ;src/games/hoppy_run/manage_input.c:66: pipe->active = false;
+    000001D6 AF               [ 4]  486 	xor	a, a
+    000001D7 02               [ 8]  487 	ld	(bc), a
+                                    488 ;src/games/hoppy_run/manage_input.c:67: return;
+    000001D8 18 0B            [12]  489 	jr	00105$
+    000001DA                        490 00104$:
+                                    491 ;src/games/hoppy_run/manage_input.c:69: draw_pipe_at(pipe->col, pipe->height, false);
+    000001DA AF               [ 4]  492 	xor	a, a
+    000001DB F5               [16]  493 	push	af
+    000001DC 33               [ 8]  494 	inc	sp
+    000001DD F8 08            [12]  495 	ldhl	sp,	#8
+    000001DF 3A               [ 8]  496 	ld	a, (hl-)
+    000001E0 5F               [ 4]  497 	ld	e, a
+    000001E1 7E               [ 8]  498 	ld	a, (hl)
+    000001E2 CDr00r00         [24]  499 	call	_draw_pipe_at
+    000001E5                        500 00105$:
+                                    501 ;src/games/hoppy_run/manage_input.c:70: }
+    000001E5 E8 0C            [16]  502 	add	sp, #12
+    000001E7 C9               [16]  503 	ret
+                                    504 ;src/games/hoppy_run/manage_input.c:72: bool handle_collisions(pipe_t *pipe, input_t *input, display_t *display)
+                                    505 ;	---------------------------------
+                                    506 ; Function handle_collisions
+                                    507 ; ---------------------------------
+    000001E8                        508 _handle_collisions::
+    000001E8 E8 F6            [16]  509 	add	sp, #-10
+    000001EA F8 08            [12]  510 	ldhl	sp,	#8
+    000001EC 7B               [ 4]  511 	ld	a, e
+    000001ED 22               [ 8]  512 	ld	(hl+), a
+    000001EE 72               [ 8]  513 	ld	(hl), d
+    000001EF F8 06            [12]  514 	ldhl	sp,	#6
+    000001F1 79               [ 4]  515 	ld	a, c
+    000001F2 22               [ 8]  516 	ld	(hl+), a
+                                    517 ;src/games/hoppy_run/manage_input.c:82: if (!pipe->active)
+    000001F3 78               [ 4]  518 	ld	a, b
+    000001F4 22               [ 8]  519 	ld	(hl+), a
+    000001F5 2A               [ 8]  520 	ld	a, (hl+)
+    000001F6 5F               [ 4]  521 	ld	e, a
+    000001F7 56               [ 8]  522 	ld	d, (hl)
+    000001F8 21 04 00         [12]  523 	ld	hl, #0x0004
+    000001FB 19               [ 8]  524 	add	hl, de
+    000001FC 4D               [ 4]  525 	ld	c, l
+    000001FD 44               [ 4]  526 	ld	b, h
+    000001FE 0A               [ 8]  527 	ld	a, (bc)
+    000001FF F8 05            [12]  528 	ldhl	sp,	#5
+    00000201 77               [ 8]  529 	ld	(hl), a
+    00000202 CB 46            [12]  530 	bit	0, (hl)
+    00000204 20 04            [12]  531 	jr	NZ, 00102$
+                                    532 ;src/games/hoppy_run/manage_input.c:83: return false;
+    00000206 AF               [ 4]  533 	xor	a, a
+    00000207 C3r01r03         [16]  534 	jp	00108$
+    0000020A                        535 00102$:
+                                    536 ;src/games/hoppy_run/manage_input.c:84: screen_x = (int16_t)pipe->world_x - (int16_t)display->scroll;
+    0000020A F8 08            [12]  537 	ldhl	sp,#8
+    0000020C 2A               [ 8]  538 	ld	a, (hl+)
+    0000020D 5F               [ 4]  539 	ld	e, a
+    0000020E 56               [ 8]  540 	ld	d, (hl)
+    0000020F 1A               [ 8]  541 	ld	a, (de)
+    00000210 4F               [ 4]  542 	ld	c, a
+    00000211 13               [ 8]  543 	inc	de
+    00000212 1A               [ 8]  544 	ld	a, (de)
+    00000213 47               [ 4]  545 	ld	b, a
+    00000214 F8 0C            [12]  546 	ldhl	sp,	#12
+    00000216 2A               [ 8]  547 	ld	a, (hl+)
+    00000217 5E               [ 8]  548 	ld	e, (hl)
+    00000218 6F               [ 4]  549 	ld	l, a
+    00000219 63               [ 4]  550 	ld	h, e
+    0000021A 23               [ 8]  551 	inc	hl
+    0000021B 23               [ 8]  552 	inc	hl
+    0000021C 2A               [ 8]  553 	ld	a,	(hl+)
+    0000021D 66               [ 8]  554 	ld	h, (hl)
+    0000021E 6F               [ 4]  555 	ld	l, a
+    0000021F 79               [ 4]  556 	ld	a, c
+    00000220 95               [ 4]  557 	sub	a, l
+    00000221 5F               [ 4]  558 	ld	e, a
+    00000222 78               [ 4]  559 	ld	a, b
+    00000223 9C               [ 4]  560 	sbc	a, h
+    00000224 57               [ 4]  561 	ld	d, a
+                                    562 ;src/games/hoppy_run/manage_input.c:85: pipe_left = screen_x + 1;
+    00000225 4B               [ 4]  563 	ld	c, e
+    00000226 42               [ 4]  564 	ld	b, d
+    00000227 03               [ 8]  565 	inc	bc
+                                    566 ;src/games/hoppy_run/manage_input.c:86: pipe_right = screen_x + 7;
+    00000228 21 07 00         [12]  567 	ld	hl, #0x0007
+    0000022B 19               [ 8]  568 	add	hl, de
+                                    569 ;src/games/hoppy_run/manage_input.c:87: if (pipe_right > cat_left && pipe_left < cat_right) {
+    0000022C 5C               [ 4]  570 	ld	e, h
+    0000022D 16 00            [ 8]  571 	ld	d, #0x00
+    0000022F 3E 2C            [ 8]  572 	ld	a, #0x2c
+    00000231 BD               [ 4]  573 	cp	a, l
+    00000232 3E 00            [ 8]  574 	ld	a, #0x00
+    00000234 9C               [ 4]  575 	sbc	a, h
+    00000235 CB 7B            [ 8]  576 	bit	7, e
+    00000237 28 07            [12]  577 	jr	Z, 00138$
+    00000239 CB 7A            [ 8]  578 	bit	7, d
+    0000023B 20 08            [12]  579 	jr	NZ, 00139$
+    0000023D BF               [ 4]  580 	cp	a, a
+    0000023E 18 05            [12]  581 	jr	00139$
+    00000240                        582 00138$:
+    00000240 CB 7A            [ 8]  583 	bit	7, d
+    00000242 28 01            [12]  584 	jr	Z, 00139$
+    00000244 37               [ 4]  585 	scf
+    00000245                        586 00139$:
+    00000245 D2r00r03         [16]  587 	jp	NC, 00106$
+    00000248 79               [ 4]  588 	ld	a, c
+    00000249 D6 34            [ 8]  589 	sub	a, #0x34
+    0000024B 78               [ 4]  590 	ld	a, b
+    0000024C 17               [ 4]  591 	rla
+    0000024D 3F               [ 4]  592 	ccf
+    0000024E 1F               [ 4]  593 	rra
+    0000024F DE 80            [ 8]  594 	sbc	a, #0x80
+    00000251 D2r00r03         [16]  595 	jp	NC, 00106$
+                                    596 ;src/games/hoppy_run/manage_input.c:88: pipe_top_y = ((int16_t)(PIPE_BASE_ROW - pipe->height + 1) * 8) + 16;
+    00000254 F8 08            [12]  597 	ldhl	sp,#8
+    00000256 2A               [ 8]  598 	ld	a, (hl+)
+    00000257 5F               [ 4]  599 	ld	e, a
+    00000258 56               [ 8]  600 	ld	d, (hl)
+    00000259 21 02 00         [12]  601 	ld	hl, #0x0002
+    0000025C 19               [ 8]  602 	add	hl, de
+    0000025D E5               [16]  603 	push	hl
+    0000025E 7D               [ 4]  604 	ld	a, l
+    0000025F F8 06            [12]  605 	ldhl	sp,	#6
+    00000261 77               [ 8]  606 	ld	(hl), a
+    00000262 E1               [12]  607 	pop	hl
+    00000263 7C               [ 4]  608 	ld	a, h
+    00000264 F8 05            [12]  609 	ldhl	sp,	#5
+    00000266 32               [ 8]  610 	ld	(hl-), a
+    00000267 2A               [ 8]  611 	ld	a, (hl+)
+    00000268 5F               [ 4]  612 	ld	e, a
+    00000269 56               [ 8]  613 	ld	d, (hl)
+    0000026A 1A               [ 8]  614 	ld	a, (de)
+    0000026B 77               [ 8]  615 	ld	(hl), a
+    0000026C F8 02            [12]  616 	ldhl	sp,	#2
+    0000026E 22               [ 8]  617 	ld	(hl+), a
+    0000026F 11 0E 00         [12]  618 	ld	de, #0x000e
+    00000272 72               [ 8]  619 	ld	(hl), d
+    00000273 3A               [ 8]  620 	ld	a, (hl-)
+    00000274 6E               [ 8]  621 	ld	l, (hl)
+    00000275 67               [ 4]  622 	ld	h, a
+    00000276 7B               [ 4]  623 	ld	a, e
+    00000277 95               [ 4]  624 	sub	a, l
+    00000278 5F               [ 4]  625 	ld	e, a
+    00000279 7A               [ 4]  626 	ld	a, d
+    0000027A 9C               [ 4]  627 	sbc	a, h
+    0000027B F8 05            [12]  628 	ldhl	sp,	#5
+    0000027D 32               [ 8]  629 	ld	(hl-), a
+    0000027E 73               [ 8]  630 	ld	(hl), e
+    0000027F 3A               [ 8]  631 	ld	a, (hl-)
+    00000280 2B               [ 8]  632 	dec	hl
+    00000281 77               [ 8]  633 	ld	(hl), a
+    00000282 F8 05            [12]  634 	ldhl	sp,	#5
+    00000284 3A               [ 8]  635 	ld	a, (hl-)
+    00000285 2B               [ 8]  636 	dec	hl
+    00000286 77               [ 8]  637 	ld	(hl), a
+    00000287 3E 03            [ 8]  638 	ld	a, #0x03
+    00000289                        639 00140$:
+    00000289 F8 02            [12]  640 	ldhl	sp,	#2
+    0000028B CB 26            [16]  641 	sla	(hl)
+    0000028D 23               [ 8]  642 	inc	hl
+    0000028E CB 16            [16]  643 	rl	(hl)
+    00000290 3D               [ 4]  644 	dec	a
+    00000291 20 F6            [12]  645 	jr	NZ, 00140$
+    00000293 2B               [ 8]  646 	dec	hl
+    00000294 2A               [ 8]  647 	ld	a, (hl+)
+    00000295 5F               [ 4]  648 	ld	e, a
+    00000296 56               [ 8]  649 	ld	d, (hl)
+    00000297 21 10 00         [12]  650 	ld	hl, #0x0010
+    0000029A 19               [ 8]  651 	add	hl, de
+    0000029B E5               [16]  652 	push	hl
+    0000029C 7D               [ 4]  653 	ld	a, l
+    0000029D F8 06            [12]  654 	ldhl	sp,	#6
+    0000029F 77               [ 8]  655 	ld	(hl), a
+    000002A0 E1               [12]  656 	pop	hl
+    000002A1 7C               [ 4]  657 	ld	a, h
+    000002A2 F8 05            [12]  658 	ldhl	sp,	#5
+    000002A4 32               [ 8]  659 	ld	(hl-), a
+    000002A5 3A               [ 8]  660 	ld	a, (hl-)
+    000002A6 2B               [ 8]  661 	dec	hl
+    000002A7 77               [ 8]  662 	ld	(hl), a
+    000002A8 F8 05            [12]  663 	ldhl	sp,	#5
+    000002AA 3A               [ 8]  664 	ld	a, (hl-)
+    000002AB 2B               [ 8]  665 	dec	hl
+    000002AC 77               [ 8]  666 	ld	(hl), a
+                                    667 ;src/games/hoppy_run/manage_input.c:89: cat_bottom = (int16_t)input->cat_y + 14;
+    000002AD F8 06            [12]  668 	ldhl	sp,#6
+    000002AF 2A               [ 8]  669 	ld	a, (hl+)
+    000002B0 5F               [ 4]  670 	ld	e, a
+    000002B1 56               [ 8]  671 	ld	d, (hl)
+    000002B2 21 03 00         [12]  672 	ld	hl, #0x0003
+    000002B5 19               [ 8]  673 	add	hl, de
+    000002B6 E5               [16]  674 	push	hl
+    000002B7 7D               [ 4]  675 	ld	a, l
+    000002B8 F8 06            [12]  676 	ldhl	sp,	#6
+    000002BA 77               [ 8]  677 	ld	(hl), a
+    000002BB E1               [12]  678 	pop	hl
+    000002BC 7C               [ 4]  679 	ld	a, h
+    000002BD F8 05            [12]  680 	ldhl	sp,	#5
+    000002BF 32               [ 8]  681 	ld	(hl-), a
+    000002C0 2A               [ 8]  682 	ld	a, (hl+)
+    000002C1 5F               [ 4]  683 	ld	e, a
+    000002C2 56               [ 8]  684 	ld	d, (hl)
+    000002C3 1A               [ 8]  685 	ld	a, (de)
+    000002C4 77               [ 8]  686 	ld	(hl), a
+    000002C5 F8 00            [12]  687 	ldhl	sp,	#0
+    000002C7 22               [ 8]  688 	ld	(hl+), a
+    000002C8 07               [ 4]  689 	rlca
+    000002C9 9F               [ 4]  690 	sbc	a, a
+    000002CA 77               [ 8]  691 	ld	(hl), a
+    000002CB D1               [12]  692 	pop	de
+    000002CC D5               [16]  693 	push	de
+    000002CD 21 0E 00         [12]  694 	ld	hl, #0x000e
+    000002D0 19               [ 8]  695 	add	hl, de
+    000002D1 E5               [16]  696 	push	hl
+    000002D2 7D               [ 4]  697 	ld	a, l
+    000002D3 F8 06            [12]  698 	ldhl	sp,	#6
+    000002D5 77               [ 8]  699 	ld	(hl), a
+    000002D6 E1               [12]  700 	pop	hl
+    000002D7 7C               [ 4]  701 	ld	a, h
+    000002D8 F8 05            [12]  702 	ldhl	sp,	#5
+    000002DA 77               [ 8]  703 	ld	(hl), a
+                                    704 ;src/games/hoppy_run/manage_input.c:90: if (cat_bottom > pipe_top_y)
+    000002DB F8 02            [12]  705 	ldhl	sp,	#2
+    000002DD 5D               [ 4]  706 	ld	e, l
+    000002DE 54               [ 4]  707 	ld	d, h
+    000002DF F8 04            [12]  708 	ldhl	sp,	#4
+    000002E1 1A               [ 8]  709 	ld	a, (de)
+    000002E2 13               [ 8]  710 	inc	de
+    000002E3 96               [ 8]  711 	sub	a, (hl)
+    000002E4 23               [ 8]  712 	inc	hl
+    000002E5 1A               [ 8]  713 	ld	a, (de)
+    000002E6 9E               [ 8]  714 	sbc	a, (hl)
+    000002E7 1A               [ 8]  715 	ld	a, (de)
+    000002E8 57               [ 4]  716 	ld	d, a
+    000002E9 5E               [ 8]  717 	ld	e, (hl)
+    000002EA CB 7B            [ 8]  718 	bit	7, e
+    000002EC 28 07            [12]  719 	jr	Z, 00141$
+    000002EE CB 7A            [ 8]  720 	bit	7, d
+    000002F0 20 08            [12]  721 	jr	NZ, 00142$
+    000002F2 BF               [ 4]  722 	cp	a, a
+    000002F3 18 05            [12]  723 	jr	00142$
+    000002F5                        724 00141$:
+    000002F5 CB 7A            [ 8]  725 	bit	7, d
+    000002F7 28 01            [12]  726 	jr	Z, 00142$
+    000002F9 37               [ 4]  727 	scf
+    000002FA                        728 00142$:
+    000002FA 30 04            [12]  729 	jr	NC, 00106$
+                                    730 ;src/games/hoppy_run/manage_input.c:91: return true;
+    000002FC 3E 01            [ 8]  731 	ld	a, #0x01
+    000002FE 18 01            [12]  732 	jr	00108$
+    00000300                        733 00106$:
+                                    734 ;src/games/hoppy_run/manage_input.c:93: return false;
+    00000300 AF               [ 4]  735 	xor	a, a
+    00000301                        736 00108$:
+                                    737 ;src/games/hoppy_run/manage_input.c:94: }
+    00000301 E8 0A            [16]  738 	add	sp, #10
+    00000303 E1               [12]  739 	pop	hl
+    00000304 C1               [12]  740 	pop	bc
+    00000305 E9               [ 4]  741 	jp	(hl)
+                                    742 	.area _CODE
+                                    743 	.area _INITIALIZER
+                                    744 	.area _CABS (ABS)

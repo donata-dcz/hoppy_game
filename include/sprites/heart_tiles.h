@@ -1,0 +1,16 @@
+/*
+** EPITECH PROJECT, 2026
+** G-ING-401-PAR-4-1-cartridge-2
+** File description:
+** heart_tiles.h
+*/
+
+#ifndef HEART_TILES
+    #define HEART_TILES
+
+static const unsigned char HeartTiles[] = {
+    0x66, 0x66, 0xD9, 0xFF, 0xB1, 0xC3, 0xB1, 0xC3,
+    0x7E, 0x42, 0x3C, 0x24, 0x18, 0x18, 0x00, 0x00
+};
+
+#endif

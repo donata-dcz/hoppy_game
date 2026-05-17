@@ -1,0 +1,16 @@
+/*
+** EPITECH PROJECT, 2026
+** G-ING-401-PAR-4-1-cartridge-2
+** File description:
+** earth_tiles.h
+*/
+
+#ifndef EARTH_TILES
+    #define EARTH_TILES
+
+const unsigned char EarthTiles[] = {
+    0xFF, 0x00, 0xFF, 0x00, 0xFF, 0x00, 0xFF, 0x00,
+    0xFF, 0x00, 0xFF, 0x00, 0xFF, 0x00, 0xFF, 0x00
+};
+
+#endif
