@@ -12,7 +12,7 @@
     #define T_GROUND 1
     #define T_WINBAR 2
     #define GROUND_ROW 16
-    #define FLAPPY_BIRD_TILES_COUNT 4
+    #define FLAPPY_BIRD_TILES_COUNT 8
     #define S_BIRD 50
     #define SPR_BIRD 0
     #define SPR_BIRD_R 1
@@ -36,6 +36,7 @@ typedef struct flappy_s {
     int8_t bird_vy;
     uint8_t ready;
     uint8_t score;
+    uint8_t tick;
 } flappy_t;
 
 typedef struct pipe_state_s {

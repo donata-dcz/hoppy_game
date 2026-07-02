@@ -54,6 +54,23 @@ static void init_gfx(void)
     SHOW_SPRITES;
 }
 
+static void animate_bird(void)
+{
+    flappy_t *state = flappy_get_state();
+    uint8_t frame = (state->tick >> 2) & 1;
+
+    if (state->bird_vy < 0)
+        frame = 1;
+    if (frame == 0) {
+        set_sprite_tile(SPR_BIRD, S_BIRD);
+        set_sprite_tile(SPR_BIRD_R, S_BIRD + 2);
+    } else {
+        set_sprite_tile(SPR_BIRD, S_BIRD + 4);
+        set_sprite_tile(SPR_BIRD_R, S_BIRD + 6);
+    }
+    state->tick++;
+}
+
 static void setup_score_win(void)
 {
     fill_win_rect(0, 0, 20, 1, 0);
@@ -100,6 +117,7 @@ void flappy_init(void)
     flappy_get_state()->bird_vy = 0;
     flappy_get_state()->ready = 0;
     flappy_get_state()->score = 0;
+    flappy_get_state()->tick = 0;
     DISPLAY_OFF;
     clear_all_sprites();
     init_gfx();
@@ -124,6 +142,7 @@ uint8_t flappy_update(void)
     update_pipes();
     flappy_handle_input();
     apply_gravity();
+    animate_bird();
     if (pipe_score_check()) {
         s->score++;
         draw_score(s->score);
