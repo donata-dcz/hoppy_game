@@ -39,8 +39,10 @@ uint8_t snake_game_loop(void)
     while (game_event != GAME_OVER) {
         if (game_event == FISH_EATEN && place_fish(&snake_game) == FAILURE)
             return SUCCESS;
-        if (game_event == FISH_EATEN)
+        if (game_event == FISH_EATEN) {
+            snake_game.unflold++;
             increment_score(&(snake_game.score));
+        }
         event = delay_and_get_event(SNAKE_FRAME_LENGTH);
         SHOW_BKG;
         vsync();

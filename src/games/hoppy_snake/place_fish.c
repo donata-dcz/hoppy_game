@@ -41,8 +41,10 @@ int place_fish(snake_game_t *game)
     uint8_t heart_tile_index = SNAKE_BGHEART_ASSET;
     size_t new_fish_index = get_fish_index(&(game->board));
 
+    if (new_fish_index == (size_t)FAILURE)
+        return FAILURE;
     game->board[new_fish_index] = FISH;
-    set_bkg_tiles((uint8_t)new_fish_index % BOARD_WIDTH,
-        (uint8_t)new_fish_index / BOARD_WIDTH, 1, 1, &heart_tile_index);
+    set_bkg_tiles(new_fish_index % BOARD_WIDTH,
+        new_fish_index / BOARD_WIDTH, 1, 1, &heart_tile_index);
     return SUCCESS;
 }
