@@ -17,12 +17,13 @@
 #include "snake_sprites_t.h" // macros
 #include "coords_t.h" // set_coords, coords_t
 #include "hoppy_game.h"
+#include "coin.h"
 
 static void init_snake_background(void)
 {
     set_bkg_data(SNAKE_BGBODY_ASSET, 1, SnakeBodyTiles);
     set_bkg_data(SNAKE_BGEMPTY_ASSET, 1, EmptyTile);
-    set_bkg_data(SNAKE_BGHEART_ASSET, 1, HeartTiles);
+    set_bkg_data(SNAKE_BGHEART_ASSET, 1, CoinTiles);
     set_bkg_data(SNAKE_BGBACKGROUND_ASSET, 1, BackgroundTile);
     set_bkg_data(SNAKE_BGSCORE_ASSET, DIGIT_TILES_COUNT, DigitTiles);
     SHOW_BKG;
