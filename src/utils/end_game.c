@@ -38,23 +38,27 @@ static void print_game_score(uint8_t id)
         draw_text(6, 2, "HOPPY RUN");
 }
 
-static void draw_current_score(uint8_t *scores, uint8_t selected)
+static void draw_current_score(uint16_t *scores, uint8_t selected)
 {
     char str[4];
+    uint16_t lvl = 0;
 
     for (uint8_t i = 0; i < MAX_SCORES; i++) {
-        str[0] = '0' + (scores[i] / 100);
-        str[1] = '0' + (scores[i] / 10 % 10);
-        str[2] = '0' + (scores[i] % 10);
+        lvl = scores[i];
+        if (lvl > 999)
+            lvl = 999;
+        str[0] = '0' + (lvl / 100) % 10;
+        str[1] = '0' + (lvl / 10) % 10;
+        str[2] = '0' + (lvl % 10);
         str[3] = '\0';
         draw_text(6, 7 + i * 2, (i == selected) ? ">" : " ");
         draw_text(8, 7 + i * 2, str);
     }
 }
 
-static bool draw_leaderboard(uint8_t id, uint8_t score)
+static bool draw_leaderboard(uint8_t id, uint16_t score)
 {
-    uint8_t scores[MAX_SCORES];
+    uint16_t scores[MAX_SCORES];
     uint8_t selected = MAX_SCORES;
 
     init_bkg(0);
@@ -71,7 +75,7 @@ static bool draw_leaderboard(uint8_t id, uint8_t score)
     return handle_keys_menu();
 }
 
-bool game_over_screen(uint8_t id, uint8_t score)
+bool game_over_screen(uint8_t id, uint16_t score)
 {
     uint8_t keys = 0;
 

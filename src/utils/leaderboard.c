@@ -10,7 +10,7 @@
 
 uint8_t AT(0xA000) savedCheckFlag;
 uint8_t AT(0xA001) savedVersion;
-uint8_t AT(0xA002) savedScores[3 * MAX_SCORES];
+uint16_t AT(0xA002) savedScores[3 * MAX_SCORES];
 
 void init_save_data(void)
 {
@@ -28,13 +28,15 @@ void init_save_data(void)
     DISABLE_RAM;
 }
 
-void save_score(uint8_t game_id, uint8_t score)
+void save_score(uint8_t game_id, uint16_t score)
 {
-    uint8_t scores[MAX_SCORES];
+    uint16_t scores[MAX_SCORES];
     uint8_t i = 0;
     uint8_t j = 0;
     uint8_t score_offset = game_id * MAX_SCORES;
-
+    
+    if (score > 999)
+        score = 999;
     load_scores(game_id, scores);
     for (i = 0; i < MAX_SCORES; i++) {
         if (score <= scores[i])
@@ -52,7 +54,7 @@ void save_score(uint8_t game_id, uint8_t score)
     DISABLE_RAM;
 }
 
-void load_scores(uint8_t game_id, uint8_t *scores)
+void load_scores(uint8_t game_id, uint16_t *scores)
 {
     uint8_t i;
     uint8_t score_offset = game_id * MAX_SCORES;

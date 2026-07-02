@@ -51,9 +51,8 @@ static void update_scroll(display_t *display, uint8_t *increase)
         display->speed++;
         (*increase)++;
     }
-    for (uint8_t i = 1; i < display->speed; i++)
-        display->scroll++;
-    SCX_REG = (uint8_t)display->scroll;
+    display->scroll += (display->speed - 1);
+    SCX_REG = display->scroll & 0xFF;
 }
 
 static void manage_game(display_t *display, input_t *input,
@@ -113,7 +112,7 @@ void run_hoppy(void)
 {
     display_t display;
     input_t input;
-    uint8_t score = 0;
+    uint16_t score = 0;
 
     while (1) {
         clear_all_sprites();
@@ -123,7 +122,7 @@ void run_hoppy(void)
         display_pipe();
         display_hoppy(&input, MAX_LIVES);
         manage_main_loop(&display, &input);
-        score = (display.scroll >> 6);
+        score = display.scroll >> 6;
         if (!game_over_screen(GAME_HOPPY, score))
             return;
     }

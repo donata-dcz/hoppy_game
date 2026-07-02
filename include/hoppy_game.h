@@ -36,7 +36,7 @@ typedef struct display_s {
     uint8_t counter;
     uint16_t scroll;
     uint8_t lives;
-    uint8_t speed;
+    uint16_t speed;
 } display_t;
 
 typedef struct input_s {
@@ -65,7 +65,7 @@ void manage_main_loop(display_t *display, input_t *input);
 void draw_lives(uint8_t lives);
 void display_pipe(void);
 void draw_pipe_at(uint8_t col, uint8_t height, bool erase);
-void draw_hoppy_score(uint8_t score);
+void draw_hoppy_score(uint16_t score);
 void setup_score_window(void);
 void display_hoppy(input_t *input, uint8_t lives);
 void handle_input(input_t *input);

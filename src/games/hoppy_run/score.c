@@ -8,11 +8,13 @@
 #include "font_utils.h"
 #include "hoppy_game.h"
 
-void draw_hoppy_score(uint8_t score)
+void draw_hoppy_score(uint16_t score)
 {
     uint8_t tiles[3];
 
-    tiles[0] = get_char_tile('0' + score / 100);
+    if (score > 999)
+        score = 999;
+    tiles[0] = get_char_tile('0' + (score / 100) % 10);
     tiles[1] = get_char_tile('0' + (score / 10) % 10);
     tiles[2] = get_char_tile('0' + score % 10);
     set_win_tiles(0, 0, 3, 1, tiles);
