@@ -28,8 +28,11 @@
     #define SCORE_SPRITE_OFFSET 24
     #define SCORE_TILE_COUNT 4
     #define SPEED_INCREASE_INTERVAL 500
+    #include "player_name.h"
     #include <gb/gb.h>
     #include <stdbool.h>
+
+extern char hoppy_name[MAX_NAME_LEN + 1];
 
 typedef struct display_s {
     uint8_t frame;

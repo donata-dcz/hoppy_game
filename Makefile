@@ -32,6 +32,7 @@ SRC	=	src/games/hoppy_snake/snake_game_loop.c	\
 		src/utils/end_game.c			\
 		src/utils/font_utils.c			\
 		src/utils/leaderboard.c			\
+		src/utils/playername.c			\
 		src/games/hoppy_bird/flappy.c			\
 		src/games/hoppy_bird/flappy_pipe.c		\
 		src/main.c

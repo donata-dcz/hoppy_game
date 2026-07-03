@@ -11,6 +11,9 @@
 #include "hoppy_menu.h"
 #include "hoppy_game.h"
 #include "saved_data.h"
+#include <string.h>
+
+char hoppy_name[MAX_NAME_LEN + 1] = "PLAYER";
 
 static void display_main_screen(void)
 {
@@ -38,6 +41,7 @@ void init_menu(uint8_t selected)
 {
     uint8_t palette_in[] = { 0x00, 0x50, 0xA8, 0xE4 };
     uint8_t palette_out[] = { 0xE4, 0xA8, 0x50, 0x00 };
+    name_input_t input;
 
     init_save_data();
     menu_font_load();
@@ -49,8 +53,9 @@ void init_menu(uint8_t selected)
     fade_in_out(palette_out);
     HIDE_SPRITES;
     clear_all_sprites();
-    BGP_REG = 0x00;
-    OBP0_REG = 0x00;
+    input_player_name(&input);
+    strcpy(hoppy_name, input.name);
+    save_player_name(input.name);
     draw_menu(selected);
     fade_in_out(palette_in);
 }

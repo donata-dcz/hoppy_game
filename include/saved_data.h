@@ -7,16 +7,24 @@
 
 #ifndef SAVED_DATA_H
     #define SAVED_DATA_H
-    #include <gb/gb.h>
     #define SAVE_FLAG 0xA5
     #define SAVE_VERSION 0x02
     #define MAX_SCORES 5
     #define GAME_SNAKE 0
     #define GAME_FLAPPY 1
     #define GAME_HOPPY 2
+    #include "player_name.h"
+
+typedef struct {
+    uint16_t score;
+    char name[MAX_NAME_LEN + 1];
+} score_t;
 
 void init_save_data(void);
 void save_score(uint8_t game_id, uint16_t score);
 void load_scores(uint8_t game_id, uint16_t *scores);
+void load_scores_with_names(uint16_t game_id, score_t *scores);
+void save_score_name(uint16_t game_id, uint16_t score, const char *name);
+void save_player_name(const char *name);
 
 #endif

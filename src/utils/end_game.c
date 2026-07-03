@@ -42,7 +42,7 @@ static void draw_current_score(uint16_t *scores, uint8_t selected)
 {
     char str[4];
     uint16_t lvl = 0;
-
+    
     for (uint8_t i = 0; i < MAX_SCORES; i++) {
         lvl = scores[i];
         if (lvl > 999)
@@ -51,8 +51,10 @@ static void draw_current_score(uint16_t *scores, uint8_t selected)
         str[1] = '0' + (lvl / 10) % 10;
         str[2] = '0' + (lvl % 10);
         str[3] = '\0';
-        draw_text(6, 7 + i * 2, (i == selected) ? ">" : " ");
-        draw_text(8, 7 + i * 2, str);
+        draw_text(2, 7 + i * 2, (i == selected) ? ">" : " ");
+        if (i == selected)
+            draw_text(5, 7 + i * 2, hoppy_name);
+        draw_text(12, 7 + i * 2, str);
     }
 }
 
@@ -60,7 +62,7 @@ static bool draw_leaderboard(uint8_t id, uint16_t score)
 {
     uint16_t scores[MAX_SCORES];
     uint8_t selected = MAX_SCORES;
-
+    
     init_bkg(0);
     load_scores(id, scores);
     print_game_score(id);
@@ -79,13 +81,13 @@ bool game_over_screen(uint8_t id, uint16_t score)
 {
     uint8_t keys = 0;
 
-    save_score(id, score);
     SCX_REG = 0;
     HIDE_SPRITES;
     menu_font_load();
     init_bkg(0);
     draw_text(5, 7, "GAME OVER");
     draw_text(4, 9, "PRESS START");
+    save_score(id, score);
     while (1) {
         vsync();
         keys = joypad();
