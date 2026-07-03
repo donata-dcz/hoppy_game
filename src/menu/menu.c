@@ -79,7 +79,7 @@ static bool flappy_play_round(void)
     DISPLAY_OFF;
     LCDC_REG = saved_lcdc;
     DISPLAY_ON;
-    result = game_over_screen(GAME_FLAPPY, flappy_get_state()->score);
+    result = game_over_screen(GAME_FLAPPY, flappy_get_state()->score, hoppy_name);
     return result;
 }
 
@@ -94,7 +94,7 @@ void run_snake(void)
 
     while (1) {
         score = snake_game_loop();
-        if (!game_over_screen(GAME_SNAKE, score))
+        if (!game_over_screen(GAME_SNAKE, score, hoppy_name))
             return;
     }
 }

@@ -123,7 +123,7 @@ void run_hoppy(void)
         display_hoppy(&input, MAX_LIVES);
         manage_main_loop(&display, &input);
         score = display.scroll >> 6;
-        if (!game_over_screen(GAME_HOPPY, score))
+        if (!game_over_screen(GAME_HOPPY, score, hoppy_name))
             return;
     }
 }

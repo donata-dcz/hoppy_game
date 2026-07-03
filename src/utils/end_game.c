@@ -38,29 +38,27 @@ static void print_game_score(uint8_t id)
         draw_text(6, 2, "HOPPY RUN");
 }
 
-static void draw_current_score(uint16_t *scores, uint8_t selected)
+static void draw_current_score(score_t *scores, uint8_t selected)
 {
     char str[4];
-    uint16_t lvl = 0;
-    
-    for (uint8_t i = 0; i < MAX_SCORES; i++) {
-        lvl = scores[i];
-        if (lvl > 999)
-            lvl = 999;
-        str[0] = '0' + (lvl / 100) % 10;
-        str[1] = '0' + (lvl / 10) % 10;
-        str[2] = '0' + (lvl % 10);
+    uint8_t i;
+    uint16_t score;
+
+    for (i = 0; i < MAX_SCORES; i++) {
+        score = scores[i].score;
+        str[0] = '0' + (score / 100) % 10;
+        str[1] = '0' + (score / 10) % 10;
+        str[2] = '0' + score % 10;
         str[3] = '\0';
-        draw_text(2, 7 + i * 2, (i == selected) ? ">" : " ");
-        if (i == selected)
-            draw_text(5, 7 + i * 2, hoppy_name);
+        //draw_text(2, 7 + i * 2, (i == selected) ? ">" : " ");
+        draw_text(5, 7 + i * 2, scores[i].name);
         draw_text(12, 7 + i * 2, str);
     }
 }
 
 static bool draw_leaderboard(uint8_t id, uint16_t score)
 {
-    uint16_t scores[MAX_SCORES];
+    score_t scores[MAX_SCORES];
     uint8_t selected = MAX_SCORES;
     
     init_bkg(0);
@@ -68,7 +66,7 @@ static bool draw_leaderboard(uint8_t id, uint16_t score)
     print_game_score(id);
     draw_text(5, 4, "BEST SCORES");
     for (int8_t i = MAX_SCORES - 1; i >= 0; i--) {
-        if (scores[i] == score) {
+        if (scores[i].score == score) {
             selected = i;
             break;
         }
@@ -77,7 +75,7 @@ static bool draw_leaderboard(uint8_t id, uint16_t score)
     return handle_keys_menu();
 }
 
-bool game_over_screen(uint8_t id, uint16_t score)
+bool game_over_screen(uint8_t id, uint16_t score, char *hoppy_name)
 {
     uint8_t keys = 0;
 
@@ -87,7 +85,7 @@ bool game_over_screen(uint8_t id, uint16_t score)
     init_bkg(0);
     draw_text(5, 7, "GAME OVER");
     draw_text(4, 9, "PRESS START");
-    save_score(id, score);
+    save_score(id, score, hoppy_name);
     while (1) {
         vsync();
         keys = joypad();

@@ -14,6 +14,6 @@
     #define PADDING_ROW "                    \n"
     #define PADDING_GAME_OVER PADDING_ROW PADDING_ROW PADDING_ROW PADDING_ROW
 
-bool game_over_screen(uint8_t id, uint16_t score);
+bool game_over_screen(uint8_t id, uint16_t score, char * hoppy_name);
 
 #endif /* ENDGAME_H */

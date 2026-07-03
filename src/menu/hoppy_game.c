@@ -55,7 +55,6 @@ void init_menu(uint8_t selected)
     clear_all_sprites();
     input_player_name(&input);
     strcpy(hoppy_name, input.name);
-    save_player_name(input.name);
     draw_menu(selected);
     fade_in_out(palette_in);
 }

@@ -101,7 +101,7 @@ static void draw_keyboard(const name_input_t *input)
     for (row = 0; row < ROWS; row++) {
         max_col = (row == ROWS - 1) ? 8 : COLS;
         for (col = 0; col < max_col; col++) {
-            key = get_keyboard_key(row, col);  // ← EN PREMIER
+            key = get_keyboard_key(row, col);
             if (key->action == KEY_ACTION_EMPTY)
                 continue;
             x = get_key_x(row, col);

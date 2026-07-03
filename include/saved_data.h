@@ -14,6 +14,7 @@
     #define GAME_FLAPPY 1
     #define GAME_HOPPY 2
     #include "player_name.h"
+    #include <gb/gb.h>
 
 typedef struct {
     uint16_t score;
@@ -21,10 +22,7 @@ typedef struct {
 } score_t;
 
 void init_save_data(void);
-void save_score(uint8_t game_id, uint16_t score);
-void load_scores(uint8_t game_id, uint16_t *scores);
-void load_scores_with_names(uint16_t game_id, score_t *scores);
-void save_score_name(uint16_t game_id, uint16_t score, const char *name);
-void save_player_name(const char *name);
+void load_scores(uint8_t game_id, score_t *scores);
+void save_score(uint8_t game_id, uint16_t score, const char *name);
 
 #endif
